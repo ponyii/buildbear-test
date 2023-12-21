@@ -4,6 +4,16 @@ struct ValuesForAlice {
 }
 
 
+fn task_2_vanilla(max_test_length: u16, threshold: i32) -> ValuesForAlice {
+    // It's just a wrapper, see the desciption within the `_task_2_vanilla` function
+    let remainder = max_test_length % 2;
+    ValuesForAlice {
+        max_score: 100 * (max_test_length / 2 + remainder) * (max_test_length / 2),
+        window_size: _task_2_vanilla(max_test_length, threshold),
+    }
+}
+
+
 fn _task_2_vanilla(max_test_length: u16, threshold: i32) -> u16 {
     // Preliminary comments: 
     // in the vanilla version of the task it's NOT requested to assume the number of questions as a variable.
@@ -58,15 +68,6 @@ fn _task_2_vanilla(max_test_length: u16, threshold: i32) -> u16 {
 }
 
 
-fn task_2_vanilla(max_test_length: u16, threshold: i32) -> ValuesForAlice {
-    // It's just a wrapper, see the desciption within the `_task_2_vanilla` function
-    let remainder = max_test_length % 2;
-    ValuesForAlice {
-        max_score: 100 * (max_test_length / 2 + remainder) * (max_test_length / 2),
-        window_size: _task_2_vanilla(max_test_length, threshold),
-    }
-}
-
 struct Variables{
     max_test_length: u16,
     threshold: i32,
@@ -92,7 +93,7 @@ fn task_2_bonus(vars: Variables) -> ValuesForAlice {
     //
     // Now, to determine the window size we should find two points:
     // the point within [0, 2/3*tnm] where the score reaches the threshold for the first time;
-    // and the point within [2/3*tnm, tnm] where the score reaches the threshold for the last time.
+    // and the point within [2/3*tnm, tnm] where the score is above the threshold for the last time.
     // There'are at least three ways to do it:
     // - analytically though using quite bulky formulae;
     // - using 2 binary searches (which makes sense only for really long tests,
